@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="heading">Heading-1</h1>
+    <p class="paragraph">Paragraph</p>
+</body>
+
+</html>
+
+<script>
+    // callback function
+    function greet(name) {
+        console.log('Hello', name)
+    }
+
+    function processUser(callBack) {
+        var userName = 'Amzad'
+        callBack(userName)
+    }
+
+    processUser(greet)
+
+
+    // promises
+    var promise = new Promise((resolve, reject)=>{
+        var success = true
+        if(success){
+            resolve('Data Fetched')
+        }else{
+            reject('error fething data')
+        }
+    })
+
+    promise.then((data)=>{
+        console.log(data)
+    }).catch((error)=>{
+        console.log(error)
+    })
+
+
+    // closure
+    function outer(){
+        var name = 'Amzad'
+        function inner(){
+            console.log(name)
+        }
+        return inner;
+    }
+
+    var myFunc = outer()
+    myFunc() // output : Amzad
+
+</script>

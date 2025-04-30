@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="" id="myForm">
+        <input type="text" id="name" required placeholder="Enter your name">
+        <button type="submit">Submit</button>
+    </form>
+
+    <table id="dataTable" border="1">
+        <tr>
+            <th>Name</th>
+        </tr>
+    </table>
+
+    <!-- Toggle buttons -->
+    <button id="toggleBtn">ON</button>
+    <button id="toggle">ON</button>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var name = document.getElementById('name').value;
+            var table = document.getElementById('dataTable');
+            var row = table.insertRow();
+            row.insertCell(0).textContent = name; // Fixed textContent
+
+            document.getElementById('name').value = '';
+        });
+
+        // Move toggle button listeners outside the form submission
+        document.getElementById('toggleBtn').addEventListener('click', function () {
+            this.textContent = this.textContent === 'ON' ? 'OFF' : 'ON';
+        });
+
+        document.getElementById('toggle').addEventListener('click', function () {
+            this.textContent = this.textContent === 'ON' ? 'OFF' : 'ON';
+        });
+
+
+        // closure
+        function outer(x) {
+            return function inner(y) {
+                return x + y
+            }
+        }
+        var addFive = outer(5)
+        console.log(addFive(20)) // 25
+
+
+        // hoisting
+        console.log(x) // undefined
+        var x = 10
+
+
+        // promises
+        var promise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('success')
+            }, 1000)
+        })
+        promise.then(console.log)
+
+
+
+            <!-- # D. React Concepts
+    ## Interactive Quiz Design
+    A React component for a multiple-choice quiz: -->
+            ```javascript
+import React, { useState } from "react";
+
+function Quiz() {
+    const [score, setScore] = useState(0);
+    const [selected, setSelected] = useState(null);
+    const question = {
+        text: "What is 2 + 2?",
+        options: ["3", "4", "5"],
+        correct: "4"
+    };
+    
+    function handleSelect(option) {
+        setSelected(option);
+        if (option === question.correct) setScore(score + 1);
+    }
+    
+    return (
+        <div>
+            <h3>{question.text}</h3>
+            {question.options.map((opt) => (
+                <button 
+                    key={opt} 
+                    onClick={() => handleSelect(opt)}
+                    style={{ backgroundColor: selected && opt === question.correct ? "green" : selected === opt ? "red" : "" }}
+                >
+                    {opt}
+                </button>
+            ))}
+            <p>Score: {score}</p>
+        </div>
+    );
+}
+export default Quiz;
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+## find() ##
+
+
+filter and update ==> db.students.updateOne({_id: ObjectId('6811dcca9cf701670ab5f899')}, {$set:{name:'Amzad-Hussain'}})
+
+filter and add data/fieldName ==> db.students.updateOne({age: 24}, {$set:{location:'siwan'}})
+
+give all docs where health <= 40 ==> db.superhero.find({health: {$lte: 40}})
+
+health between 40 to 60 ==> db.superhero.find({$and: [{health: {$gte: 40}}, {health: {$lte: 60}}]})
+
+
+(find(), limit(),sort())
+db.superhero.find().limit(2)
+db.superhero.find().skip(5)
+db.superhero.find().skip(1).limit(2)
+
+db.superhero.find().sort({age: 1})
+
+nested object updation ==> db.students.updateOne({_id: ObjectId('6811dcca9cf701670ab5f899')}, {$set:{'metadata.age': 30}})
+
+
+Databases
+What is a Database? ⇒ Database is a place where we can actually store our
+data.
+
+Why do we store the data?⇒ So that we can use it later, for any kind of
+purpose
+
+Why MongoDB?
+It is very flexible.
+It is very quick and easy to learn MongoDB.
+It has a syntax similar to JavaScript.
+Most Companies these days are using MongoDB as it is very flexible.
+
+
+BASIC COMMANDS:
+1. show dbs
+2. use “database_name” ⇒ you can create a database with this as well
+3. show collections
+4. db.”collection_name”.find()
+5. cls ⇒ to clear the shell
+6. db.createCollection(”collection_name”)
+7. db.”collection_name”.insertOne({})
+8. db.”collection_name”.insertMany({},{})
+
+I want to add {country: “India”} in all the documents then ⇒ db.users.updateMany({},{$set: {country: India”}})
+
+
+## aggregation match() ##
+
+MongoDB Aggregation
+Framework
+The MongoDB Aggregation Framework is a powerful tool for performing complex
+data transformations and analyses directly within MongoDB databases. It is
+designed to aggregate data from multiple documents and return computed results,
+allowing for operations like data summarization, transformation, and complex
+filtering.
+
+
+
+Core Components and Operations:
+$match: Filters the data to pass only the documents that match specified
+conditions to the next pipeline stage, similar to the find method but used
+within the aggregation framework.
+$project: Reshapes documents by including, excluding, or adding new
+fields. It can also be used to compute new values and assign them to
+fields.
+
+mongoDB aggregation pipeline ==> []
+Stages ==> $match(),  $group(),  $project()
+
+all users age > 30 ==> db.customers.aggregate([{$match: {age: {$gte: 30}}}])
+
+all users age between 18 to 60 ==> db.customers.aggregate([{$match: {$and:[{age: {$gte: 18}}, {age: {$lte: 60}}]}}])
+
+users first_name ==> db.customers.aggregate([{$match: {name: 'first_name'}}])
+
+all user salary between 1000 to 5000 ==> db.customers.aggregate([{$match: {and: [{salary: {$gt: 1000}}, {salary: {$lt:5000}}]}}])
+
+
+## aggregation project() ##
+
+
+only first_name of all documents ==> db.customers.aggregate([{$project: {first_name: 1}}])
+
+sorting
+ - ascending order = 1
+ - descending order = -1
+
+aggregation $project() 
+ - including/show = 1
+ - excluding/not show = 0
+
+
+db.customers.aggregate([{$project: {first_name: 1, salary: 1}}]) 
+
+db.customers.aggregate([{$project: {first_name: 1, _id: 0}}]) 
+
+all users AgeInMonths ==> db.customers.aggregate([{$project: {AgeInMonths: {$multiply: ["$age", 12]}}}])
+
+all users AgeInMonths and first_name ==> db.customers.aggregate([{$project: {AgeInMonths: {$multiply: ["$age", 12]}, first_name: 1}}])
+
+add first_name and last_name to a new fieldName called Full_Name ==> db.customers.aggregate([{$project: {Full_Name: {$concat: ["$first_name", " ", "$last_name"]}}}])
+
+print first and last name of all users and age >= 20 ==> db.customers.aggregate([{$project: {first_name:1, last_name:1, age:1}}, {$match: {age: {$gte: 20}}}])
+
+devide salary with 1000 - x, after find floor value of x, then add 'k' to x (20k) ==> db.customers.aggregate([{$project: {SalaryInK: {$concat: [{$toString: {$floor: {$devide: ["$salary", 1000]}}}, "k" ]}}}])
+
+
+4. Filter by Age and Project Names
+Retrieve the first and last name of customers older than 20.
+db.Customers.aggregate([
+ {$match: {age: {$gt: 20}}},
+ {$project: {first_name: 1, last_name: 1}}
+])
+
+
+Advanced Usage: Updating Nested Fields
+db.users.updateOne(
+ { "username": "john_doe" },
+ { $set: { "address.zipcode": "12345" }}
+)
+
+
+db.orders.aggregate( [
+
+   // Stage 1: Filter pizza order documents by pizza size
+   {
+      $match: { size: "medium" }
+   },
+
+   // Stage 2: Group remaining documents by pizza name and calculate total quantity
+   {
+      $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
+   }
+] )
+
+
+1. db.collection.estimatedDocumentCount()
+2. db.collection.count()
+3. db.collection.distinct()
+
+
+stages/operators ==> count(), group(), limit, sort, skip, fill(), $addFields(), lookup, $match, $set, project, $merge, $out, $search, $unwind, sortByCount, unset, $documents, devide, multiple, concat, toString, subtract, add, and, or, floor, rename, inc, max, min, mul, currentDate, pop, pull, push, each, position, slice, 
+
+
+
+
+## $group() ##
+
+
+
+Give me all the unique genders from the database ==> db.customers.aggregate([{$group: {_id: "$gender"}}])
+
+Give me all the unique genders and the number of people from each gender ==> db.customers.aggregate([{$group: {_id: "$gender", count: {$count: {} }}}])
+
+Give me all the unique genders and the average age of each gender ==> db.customers.aggregate([{$group: {_id: "$gender", AverageAge: {$avg: "$age" }}}])
+
+Give me all the unique genders and the average salary of each gender ==> db.customers.aggregate([{$group: {_id: "$gender", AverageAge: {$avg: "$salary" }}}])
+
+group in one ==> db.customers.aggregate([{$group: {_id: "profession", count: {$count: {} }}}])
+
+all users/genders age > 50 and group by gender and averageSalary ==> db.customers.aggregate([{$match: {age: {$gte: 50}}}, {$group: {_id: "$gender", AverageSalary: {$avg: "$salary"}}}])
+
+all genders averageSalary >= 25000 ==> db.customers.aggregate([{$group: {_id: "$gender", AverageSalary: {$avg: "$salary"}}}, {$match: {avgSal: {$gte: 25000}}}])
+
+group by genders with all ROOT ==> db.customers.aggregate([{$group: {_id: "$gender", documents: {$push: "$$ROOT"}}}])
+
+group all the first_name of each genders documents ==> db.customers.aggregate([{$group: {_id: "$gender", documents: {$push: {first_name:"$first_name"}}}}])
+
+db.customers.aggregate([{$group: {_id: "$gender", names: {$push: "$first_name"}}}])
+
+
+Give me the avg of all the people
+db.Customers.aggregate([{$group: {_id: 1, AverageAge: {$avg: "$salary"}}}])
+
+Group by first_name and age 
+select first_name, age from customers group by first_name, age
+ db.Customers.aggregate([{$group: {_id: {name: "$first_name", gender: "$gender"}, AverageAge: {$avg: "$salary"}}}])
+
+
+I want to get the unique gender of those people who are above the age 50 and their avg sal
+db.Customers.aggregate([
+    {$match: {age: {$gte: 50}}}, 
+    {$group: {_id: "$gender", average: {$avg: "$salary"}}}
+])
+
+
+I want to get all the unique genders and the average sal where avg sal is >= 25000
+db.Customers.aggregate([{$group: {_id: "$gender", AverageAge: {$avg: "$salary"}}}, {$match: {AverageAge: {$gte: 25000}}}])
+
+
+Print the full name of all those users who have age >= 40
+db.Customers.aggregate([{$project: {full_name: {$concat: ["$first_name", " ", "$last_name"]}, age: 1}}, {$match: {age: {$gte: 40}}}])

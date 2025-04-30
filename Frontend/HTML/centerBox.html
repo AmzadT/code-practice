@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box center</title>
+
+    <!-- <style>
+         #cont{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            border: 5px solid black;
+         }
+
+         .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid red;
+            height: 300px;
+            width: 300px;
+         }
+    </style> -->
+
+    <!-- <style>
+        #cont{
+            display: grid;
+            place-items: center;
+            height: 100vh;
+            border: 5px solid greenyellow;
+        }
+
+        .box{
+            display: grid;
+            place-content: center;
+            height: 300px;
+            width: 300px;
+            border: 2px solid royalblue;
+        }
+    </style> -->
+
+    <style>
+        #cont {
+            position: relative;
+            border: 5px solid orangered;
+            height: 100vh;
+        }
+
+        .box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid teal;
+            height: 300px;
+            width: 300px;
+            display: grid;
+            place-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- using flex -->
+    <!-- <div id="cont">
+        <div class="box">Box</div>
+     </div> -->
+
+    <!-- using grid -->
+    <!-- <div id="cont">
+        <div class="box">Box</div>
+      </div> -->
+
+    <!-- using position -->
+    <div id="cont">
+        <div class="box">Box</div>
+    </div>
+</body>
+
+</html>
